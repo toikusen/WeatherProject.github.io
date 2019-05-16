@@ -46,24 +46,281 @@
 						<!-- Intro -->
 							<article id="intro">
 								<h2 class="major">Intro</h2>
-								<span class="image main"><img src="images/pic01.jpg" alt="" /></span>
-								<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
+								<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>YQL-擷取中央氣象局範例</title>
+</head>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script>
+    var jsonCity = {
+        "results": {
+            "table": [
+            {
+                "city": {
+                    "id": "KeelungList",
+                    "name": "基隆市"
+                }
+            },
+            {
+                "city": {
+                    "id": "TaipeiCityList",
+                    "name": "臺北市"
+                }
+            },
+            {
+                "city": {
+                    "id": "TaipeiList",
+                    "name": "新北市"
+                }
+            },
+            {
+                "city": {
+                    "id": "TaoyuanList",
+                    "name": "桃園縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "HsinchuCityList",
+                    "name": "新竹市"
+                }
+            },
+            {
+                "city": {
+                    "id": "HsinchuList",
+                    "name": "新竹縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "MiaoliList",
+                    "name": "苗栗縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "TaichungList",
+                    "name": "臺中市"
+                }
+            },
+            {
+                "city": {
+                    "id": "ChanghuaList",
+                    "name": "彰化縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "NantouList",
+                    "name": "南投縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "YunlinList",
+                    "name": "雲林縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "ChiayiCityList",
+                    "name": "嘉義市"
+                }
+            },
+            {
+                "city": {
+                    "id": "ChiayiList",
+                    "name": "嘉義縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "YilanList",
+                    "name": "宜蘭縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "HualienList",
+                    "name": "花蓮縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "TaitungList",
+                    "name": "臺東縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "TainanList",
+                    "name": "臺南市"
+                }
+            },
+            {
+                "city": {
+                    "id": "KaohsiungCityList",
+                    "name": "高雄市"
+                }
+            },
+            {
+                "city": {
+                    "id": "PingtungList",
+                    "name": "屏東縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "MatsuList",
+                    "name": "連江縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "KinmenList",
+                    "name": "金門縣"
+                }
+            },
+            {
+                "city": {
+                    "id": "PenghuList",
+                    "name": "澎湖縣"
+                }
+            }
+            ]
+        }
+    };
+</script>
+<script>
+    /*下拉縣市清單*/
+    var appendSelectCity = function () {
+        $.each(jsonCity.results.table, function (i, item) {
+            $("#city").append('<option id="' + item.city.id + '">' + item.city.name + '</option>');
+        });
+    }
+    /*下拉觸發事件*/
+    var changSel = function (ele) {
+        //
+        var Cityid = $(ele).find("option:selected").attr('id');
+        if ($('table>td').length == 4) {
+            $('table>td').fadeOut(500, function () { $(this).remove(); });
+            GetWeatherData(Cityid);
+        }
+    }
+    /*透過YQL取得氣象資料*/
+    var GetWeatherData = function (cityId) {
+        var BasicQueryUrl = 'http://query.yahooapis.com/v1/public/yql?'
+        var query = 'q=' +
+            encodeURIComponent('select * from html where ' +
+            '  url = "http://www.cwb.gov.tw/V7/forecast/f_index.htm" and ' +
+            'xpath=' + "'" + '//tr[@id="' + cityId + '"]' + "'") + '&format=json';
+
+        $.getJSON(BasicQueryUrl + query, function (data) {
+            var Infohtml = '';
+            var ImagUrl = '';
+            //取得圖片,在最後一個元素
+            var lastImglength = data.query.results.tr.td.length - 1;
+            $.each(data.query.results.tr.td, function (i, val) {
+                if (val.a.content != undefined) {
+                    var name = '';
+                    switch (i) {
+                        case 0:
+                            name = "縣市";
+                            break;
+                        case 1:
+                            name = "溫度";
+                            break;
+                        case 2:
+                            name = "降雨機率";
+                            break;
+                    }
+                    Infohtml += '<td width="100px;"><p>' + name + '</p>' + val.a.content + '</td>';
+                }
+            });
+            var iurl = data.query.results.tr.td[lastImglength].div.a.img.src;
+            ImagUrl += ' <td width="100px;">' +
+                    ' <div class="spic">' +
+                    ' <img src="http://www.cwb.gov.tw' + iurl + '" width="45" height="45" border="0">' +
+                    ' </div>' +
+                    ' </td>';
+            $("table").append(Infohtml + ImagUrl);
+        });
+    }
+    $(function () {
+        /*初始化取得*/
+        appendSelectCity();
+        /*預設值*/
+        GetWeatherData('KeelungList');
+    });
+</script>
+<body>
+    <form>
+
+        <p>請選擇地區:</p>
+        <select id="city" onchange="changSel(this)">
+        </select>
+        <table>
+            <!-- 放置內容區域-->
+        </table>
+    </form>
+
+</body>
+</html>
 							</article>
 
 						<!-- Work -->
 							<article id="work">
 								<h2 class="major">Work</h2>
-								<span class="image main"><img src="images/pic02.jpg" alt="" /></span>
-								<p>Adipiscing magna sed dolor elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices.</p>
-								<p>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus pharetra. Pellentesque condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis libero. Mauris aliquet magna magna sed nunc rhoncus amet feugiat tempus.</p>
+								<a class="weatherwidget-io" href="https://forecast7.com/zh-tw/25d03121d57/taipei/" data-label_1="台北" data-label_2="天氣" data-font="微軟正黑體 (Microsoft JhengHei)" data-theme="weather_one" >台北 天氣</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
 							</article>
 
 						<!-- About -->
 							<article id="about">
 								<h2 class="major">About</h2>
-								<span class="image main"><img src="images/pic03.jpg" alt="" /></span>
-								<p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum dolor sit amet.</p>
+								<html> 
+
+<HEAD> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5"> 
+</HEAD> 
+
+<SCRIPT type='text/javascript'> 
+
+function go() 
+{ url = document.f1.s1.options[document.f1.s1.selectedIndex].value 
+document.getElementById("if1").src = url 
+} 
+
+</SCRIPT> 
+
+<body> 
+
+<br><br> 
+
+<form name="f1"> 
+選擇 
+<select name="s1" style="width:200px;" onChange="go()"> 
+<option value="file:///C:/Users/Thomas/Desktop/web天氣/taipei.html">台灣雅虎 
+<option value="file:///C:/Users/Thomas/Desktop/web天氣/newyork.html">紐約
+<option value="http://map.google.com">Google Map 
+<option value="http://你的網頁4">甚麼4 
+<option value="http://你的網頁5">甚麼5 
+<option value="http://你的網頁6">甚麼6 
+</select> 
+</form> 
+
+<br><br> 
+
+<hr style="width:100%; height:2px;"> 
+
+<iframe id="if1" src="file:///C:/Users/Thomas/Desktop/web天氣/taipei.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no">  </iframe>
+<iframe id="if1" src="file:///C:/Users/Thomas/Desktop/web天氣/newyork.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no"> </iframe> 
+</body> 
+</html> 
 							</article>
 
 						<!-- Contact -->
