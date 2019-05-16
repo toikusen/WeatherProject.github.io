@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Dimension by HTML5 UP</title>
+		<title>WeatherProject</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -24,17 +24,17 @@
 						</div>
 						<div class="content">
 							<div class="inner">
-								<h1>Dimension</h1>
+								<h1>WeatherProject</h1>
 								<p>A fully responsive site template designed by <a href="https://html5up.net">HTML5 UP</a> and released<br />
 								for free under the <a href="https://html5up.net/license">Creative Commons</a> license.</p>
 							</div>
 						</div>
 						<nav>
 							<ul>
-								<li><a href="#intro">Intro</a></li>
-								<li><a href="#work">Work</a></li>
-								<li><a href="#about">About</a></li>
-								<li><a href="#contact">Contact</a></li>
+								<li><a href="#intro">台灣</a></li>
+								<li><a href="#work">美國</a></li>
+								<li><a href="#about">日本</a></li>
+								<li><a href="#contact">英國</a></li>
 								<!--<li><a href="#elements">Elements</a></li>-->
 							</ul>
 						</nav>
@@ -43,245 +43,9 @@
 				<!-- Main -->
 					<div id="main">
 
-						<!-- Intro -->
+						<!-- 台灣 -->
 							<article id="intro">
-								<h2 class="major">Intro</h2>
-								<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>YQL-擷取中央氣象局範例</title>
-</head>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script>
-    var jsonCity = {
-        "results": {
-            "table": [
-            {
-                "city": {
-                    "id": "KeelungList",
-                    "name": "基隆市"
-                }
-            },
-            {
-                "city": {
-                    "id": "TaipeiCityList",
-                    "name": "臺北市"
-                }
-            },
-            {
-                "city": {
-                    "id": "TaipeiList",
-                    "name": "新北市"
-                }
-            },
-            {
-                "city": {
-                    "id": "TaoyuanList",
-                    "name": "桃園縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "HsinchuCityList",
-                    "name": "新竹市"
-                }
-            },
-            {
-                "city": {
-                    "id": "HsinchuList",
-                    "name": "新竹縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "MiaoliList",
-                    "name": "苗栗縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "TaichungList",
-                    "name": "臺中市"
-                }
-            },
-            {
-                "city": {
-                    "id": "ChanghuaList",
-                    "name": "彰化縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "NantouList",
-                    "name": "南投縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "YunlinList",
-                    "name": "雲林縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "ChiayiCityList",
-                    "name": "嘉義市"
-                }
-            },
-            {
-                "city": {
-                    "id": "ChiayiList",
-                    "name": "嘉義縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "YilanList",
-                    "name": "宜蘭縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "HualienList",
-                    "name": "花蓮縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "TaitungList",
-                    "name": "臺東縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "TainanList",
-                    "name": "臺南市"
-                }
-            },
-            {
-                "city": {
-                    "id": "KaohsiungCityList",
-                    "name": "高雄市"
-                }
-            },
-            {
-                "city": {
-                    "id": "PingtungList",
-                    "name": "屏東縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "MatsuList",
-                    "name": "連江縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "KinmenList",
-                    "name": "金門縣"
-                }
-            },
-            {
-                "city": {
-                    "id": "PenghuList",
-                    "name": "澎湖縣"
-                }
-            }
-            ]
-        }
-    };
-</script>
-<script>
-    /*下拉縣市清單*/
-    var appendSelectCity = function () {
-        $.each(jsonCity.results.table, function (i, item) {
-            $("#city").append('<option id="' + item.city.id + '">' + item.city.name + '</option>');
-        });
-    }
-    /*下拉觸發事件*/
-    var changSel = function (ele) {
-        //
-        var Cityid = $(ele).find("option:selected").attr('id');
-        if ($('table>td').length == 4) {
-            $('table>td').fadeOut(500, function () { $(this).remove(); });
-            GetWeatherData(Cityid);
-        }
-    }
-    /*透過YQL取得氣象資料*/
-    var GetWeatherData = function (cityId) {
-        var BasicQueryUrl = 'http://query.yahooapis.com/v1/public/yql?'
-        var query = 'q=' +
-            encodeURIComponent('select * from html where ' +
-            '  url = "http://www.cwb.gov.tw/V7/forecast/f_index.htm" and ' +
-            'xpath=' + "'" + '//tr[@id="' + cityId + '"]' + "'") + '&format=json';
-
-        $.getJSON(BasicQueryUrl + query, function (data) {
-            var Infohtml = '';
-            var ImagUrl = '';
-            //取得圖片,在最後一個元素
-            var lastImglength = data.query.results.tr.td.length - 1;
-            $.each(data.query.results.tr.td, function (i, val) {
-                if (val.a.content != undefined) {
-                    var name = '';
-                    switch (i) {
-                        case 0:
-                            name = "縣市";
-                            break;
-                        case 1:
-                            name = "溫度";
-                            break;
-                        case 2:
-                            name = "降雨機率";
-                            break;
-                    }
-                    Infohtml += '<td width="100px;"><p>' + name + '</p>' + val.a.content + '</td>';
-                }
-            });
-            var iurl = data.query.results.tr.td[lastImglength].div.a.img.src;
-            ImagUrl += ' <td width="100px;">' +
-                    ' <div class="spic">' +
-                    ' <img src="http://www.cwb.gov.tw' + iurl + '" width="45" height="45" border="0">' +
-                    ' </div>' +
-                    ' </td>';
-            $("table").append(Infohtml + ImagUrl);
-        });
-    }
-    $(function () {
-        /*初始化取得*/
-        appendSelectCity();
-        /*預設值*/
-        GetWeatherData('KeelungList');
-    });
-</script>
-<body>
-    <form>
-
-        <p>請選擇地區:</p>
-        <select id="city" onchange="changSel(this)">
-        </select>
-        <table>
-            <!-- 放置內容區域-->
-        </table>
-    </form>
-
-</body>
-</html>
-							</article>
-
-						<!-- Work -->
-							<article id="work">
-								<h2 class="major">Work</h2>
-								<a class="weatherwidget-io" href="https://forecast7.com/zh-tw/25d03121d57/taipei/" data-label_1="台北" data-label_2="天氣" data-font="微軟正黑體 (Microsoft JhengHei)" data-theme="weather_one" >台北 天氣</a>
-<script>
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-</script>
-							</article>
-
-						<!-- About -->
-							<article id="about">
-								<h2 class="major">About</h2>
+								<h2 class="major">台灣</h2>
 								<html> 
 
 <HEAD> 
@@ -303,9 +67,9 @@ document.getElementById("if1").src = url
 
 <form name="f1"> 
 選擇 
-<select name="s1" style="width:200px;" onChange="go()"> 
-<option value="file:///C:/Users/Thomas/Desktop/web天氣/taipei.html">台灣雅虎 
-<option value="file:///C:/Users/Thomas/Desktop/web天氣/newyork.html">紐約
+<select name="s1" style="width:200px;" onChange="go()">   
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html">台北 
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/newyork.html">紐約
 <option value="http://map.google.com">Google Map 
 <option value="http://你的網頁4">甚麼4 
 <option value="http://你的網頁5">甚麼5 
@@ -317,41 +81,142 @@ document.getElementById("if1").src = url
 
 <hr style="width:100%; height:2px;"> 
 
-<iframe id="if1" src="file:///C:/Users/Thomas/Desktop/web天氣/taipei.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no">  </iframe>
-<iframe id="if1" src="file:///C:/Users/Thomas/Desktop/web天氣/newyork.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no"> </iframe> 
+<iframe id="if1" src="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no">  </iframe>
+
 </body> 
 </html> 
 							</article>
 
-						<!-- Contact -->
+						<!-- 日本 -->
+							<article id="work">
+                                <h2 class="major">日本</h2>
+								<html> 
+
+<HEAD> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5"> 
+</HEAD> 
+
+<SCRIPT type='text/javascript'> 
+
+function go2() 
+{ url = document.f2.s2.options[document.f2.s2.selectedIndex].value 
+document.getElementById("if2").src = url 
+} 
+
+</SCRIPT> 
+
+<body> 
+
+<br><br> 
+
+<form name="f2"> 
+選擇 
+<select name="s2" style="width:200px;" onChange="go()">   
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html">台北 
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/newyork.html">紐約
+<option value="http://map.google.com">Google Map 
+<option value="http://你的網頁4">甚麼4 
+<option value="http://你的網頁5">甚麼5 
+<option value="http://你的網頁6">甚麼6 
+</select> 
+</form> 
+
+<br><br> 
+
+<hr style="width:100%; height:2px;"> 
+
+<iframe id="if1" src="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no">  </iframe>
+
+</body> 
+</html> 
+							</article>
+
+						<!-- 美國 -->
+							<article id="about">
+								<h2 class="major">美國</h2>
+								<html> 
+
+<HEAD> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5"> 
+</HEAD> 
+
+<SCRIPT type='text/javascript'> 
+
+function go3() 
+{ url = document.f3.s3.options[document.f3.s3.selectedIndex].value 
+document.getElementById("if3").src = url 
+} 
+
+</SCRIPT> 
+
+<body> 
+
+<br><br> 
+
+<form name="f3"> 
+選擇 
+<select name="s3" style="width:200px;" onChange="go()">   
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html">台北 
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/newyork.html">紐約
+<option value="http://map.google.com">Google Map 
+<option value="http://你的網頁4">甚麼4 
+<option value="http://你的網頁5">甚麼5 
+<option value="http://你的網頁6">甚麼6 
+</select> 
+</form> 
+
+<br><br> 
+
+<hr style="width:100%; height:2px;"> 
+
+<iframe id="if1" src="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no">  </iframe>
+
+</body> 
+</html> 
+							</article>
+
+						<!-- 英國 -->
 							<article id="contact">
-								<h2 class="major">Contact</h2>
-								<form method="post" action="#">
-									<div class="fields">
-										<div class="field half">
-											<label for="name">Name</label>
-											<input type="text" name="name" id="name" />
-										</div>
-										<div class="field half">
-											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
-										</div>
-										<div class="field">
-											<label for="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
-										</div>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="primary" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</form>
-								<ul class="icons">
-									<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-									<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-									<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-									<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
+								<h2 class="major">英國</h2>
+								<html> 
+
+<HEAD> 
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=big5"> 
+</HEAD> 
+
+<SCRIPT type='text/javascript'> 
+
+function go4() 
+{ url = document.f4.s4.options[document.f4.s4.selectedIndex].value 
+document.getElementById("if4").src = url 
+} 
+
+</SCRIPT> 
+
+<body> 
+
+<br><br> 
+
+<form name="f4"> 
+選擇 
+<select name="s4" style="width:200px;" onChange="go()">   
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html">台北 
+<option value="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/newyork.html">紐約
+<option value="http://map.google.com">Google Map 
+<option value="http://你的網頁4">甚麼4 
+<option value="http://你的網頁5">甚麼5 
+<option value="http://你的網頁6">甚麼6 
+</select> 
+</form> 
+
+<br><br> 
+
+<hr style="width:100%; height:2px;"> 
+
+<iframe id="if1" src="file:///C:/Users/tuyuc/OneDrive/桌面/WebProject/taipei.html" style="width:100%; height:1500px;" scrolling="no" frameborder="no">  </iframe>
+
+</body> 
+</html> 
 							</article>
 
 						<!-- Elements -->
